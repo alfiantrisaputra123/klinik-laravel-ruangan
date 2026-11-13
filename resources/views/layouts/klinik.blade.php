@@ -18,7 +18,10 @@
 
     {{-- @auth = tampil kalau sudah login, @else = tampil kalau belum login --}}
     @auth
-      <span class="user-info">Halo, {{ Auth::user()->name }}</span>
+      <span class="user-info">
+        Halo, {{ Auth::user()->name }}
+        <span class="role-badge">{{ Auth::user()->role }}</span>
+      </span>
       <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit" class="btn-kecil hapus">Logout</button>

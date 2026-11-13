@@ -8,9 +8,12 @@
       <p>Kelola data master ruang poliklinik: nama ruangan, lokasi gedung, dan status ketersediaannya.</p>
     </section>
 
-    <div class="toolbar">
-      <a href="{{ route('ruangan.create') }}" class="btn-kecil tambah">+ Tambah Ruangan</a>
-    </div>
+    {{-- @can: tombol hanya muncul kalau user boleh (lihat RuanganPolicy) --}}
+    @can('create', \App\Models\Ruangan::class)
+      <div class="toolbar">
+        <a href="{{ route('ruangan.create') }}" class="btn-kecil tambah">+ Tambah Ruangan</a>
+      </div>
+    @endcan
 
     <section class="table-section">
       <table>
@@ -33,13 +36,19 @@
               <td>{{ $r->lokasi_gedung }}</td>
               <td><span class="badge {{ strtolower($r->status) }}">{{ $r->status }}</span></td>
               <td class="aksi">
-                <a href="{{ route('ruangan.edit', $r->id) }}" class="btn-kecil edit">Edit</a>
-                <form action="{{ route('ruangan.destroy', $r->id) }}" method="POST"
-                      onsubmit="return confirm('Hapus ruangan ini?')">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" class="btn-kecil hapus">Hapus</button>
-                </form>
+                @can('update', $r)
+                  <a href="{{ route('ruangan.edit', $r->id) }}" class="btn-kecil edit">Edit</a>
+                @endcan
+
+                {{-- Tombol Hapus disembunyikan untuk petugas, hanya admin yang melihatnya --}}
+                @can('delete', $r)
+                  <form action="{{ route('ruangan.destroy', $r->id) }}" method="POST"
+                        onsubmit="return confirm('Hapus ruangan ini?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-kecil hapus">Hapus</button>
+                  </form>
+                @endcan
               </td>
             </tr>
           @empty

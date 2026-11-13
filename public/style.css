@@ -270,3 +270,16 @@ td.kosong {
   font-size: 0.9rem;
   padding: 8px 12px;
 }
+
+/* Label role (Admin / Petugas) di navbar */
+.role-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 10px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #0a4f4f;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
